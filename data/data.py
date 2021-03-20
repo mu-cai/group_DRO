@@ -9,7 +9,7 @@ root_dir = '.'  # '/u/scr/nlp/dro/'
 
 dataset_attributes = {
     'CelebA': {
-        'root_dir': '/' # 'celebA'
+        'root_dir': './' # 'celebA'
     },
     'CUB': {
         'root_dir': 'cub'
