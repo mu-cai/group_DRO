@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import pdb
 
 class LossComputer:
     def __init__(self, criterion, is_robust, dataset, alpha=None, gamma=0.1, adj=None, min_var_weight=0, step_size=0.01, normalize_loss=False, btl=False):
@@ -60,6 +61,7 @@ class LossComputer:
 
     def compute_robust_loss(self, group_loss, group_count):
         adjusted_loss = group_loss
+        # pdb.set_trace()
         if torch.all(self.adj>0):
             adjusted_loss += self.adj/torch.sqrt(self.group_counts)
         if self.normalize_loss:
@@ -98,6 +100,8 @@ class LossComputer:
         group_count = group_map.sum(1)
         group_denom = group_count + (group_count==0).float() # avoid nans
         group_loss = (group_map @ losses.view(-1))/group_denom
+        # pdb.set_trace()
+        
         return group_loss, group_count
 
     def update_exp_avg_loss(self, group_loss, group_count):

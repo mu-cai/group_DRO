@@ -58,10 +58,10 @@ class CelebADataset(ConfounderDataset):
         self.n_groups = self.n_classes * pow(2, len(self.confounder_idx))
         print('self.n_groups = ', self.n_groups)
         self.group_array = (self.y_array*(self.n_groups/2) + self.confounder_array).astype('int')
-        pdb.set_trace()
-        print('self.group_array', self.group_array[:10,:])
-        print('confounder_id', confounder_id.shape(), confounder_id[:10,:])
-        print('self.y_array', self.y_array[:10,:])
+        # pdb.set_trace()
+        print('.group_array', self.group_array[:100])
+        print('confounderid', self.confounder_array[:100])
+        print('self.y_array', self.y_array[:100])
 
         # assert False
 
