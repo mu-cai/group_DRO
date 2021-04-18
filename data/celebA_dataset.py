@@ -47,10 +47,15 @@ class CelebADataset(ConfounderDataset):
         self.n_confounders = len(self.confounder_idx)
         confounders = self.attrs_df[:, self.confounder_idx]
         confounder_id = confounders @ np.power(2, np.arange(len(self.confounder_idx)))
+        print('confounder_id', confounder_id.shape(), confounder_id[:10,:])
         self.confounder_array = confounder_id
+        print('self.y_array', self.y_array[:10,:])
+        
+        assert False
 
         # Map to groups
         self.n_groups = self.n_classes * pow(2, len(self.confounder_idx))
+        print('self.n_groups = ', self.n_groups)
         self.group_array = (self.y_array*(self.n_groups/2) + self.confounder_array).astype('int')
 
         # Read in train/val/test splits

@@ -24,6 +24,9 @@ confounder_settings = {
     },
     'MultiNLI':{
         'constructor': MultiNLIDataset
+    },
+    'Waterbird':{
+        'constructor': MultiNLIDataset
     }
 }
 

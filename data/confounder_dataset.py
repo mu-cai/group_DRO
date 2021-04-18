@@ -20,7 +20,7 @@ class ConfounderDataset(Dataset):
         y = self.y_array[idx]
         g = self.group_array[idx]
 
-        if model_attributes[self.model_type]['feature_type']=='precomputed':
+        if model_attributes[self.model_type]['feature_type']=='precomputed': # never enter this position
             x = self.features_mat[idx, :]
         else:
             img_filename = os.path.join(

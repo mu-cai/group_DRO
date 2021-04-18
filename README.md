@@ -62,6 +62,9 @@ A sample command to run group DRO on CelebA is:
 `python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 128 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0`
 
 
+
+
+
 ### Waterbirds
 
 The Waterbirds dataset is constructed by cropping out birds from photos in the Caltech-UCSD Birds-200-2011 (CUB) dataset (Wah et al., 2011) and transferring them onto backgrounds from the Places dataset (Zhou et al., 2017).
@@ -108,3 +111,9 @@ We created our own train/val/test split of the MultiNLI dataset, as described in
 > The standard MultiNLI train-test split allocates most examples (approximately 90%) to the training set, with another 5% as a publicly-available development set and the last 5% as a held-out test set that is only accessible through online competition leaderboards (Williams et al., 2018). To accurately estimate performance on rare groups in the validation and test sets, we combine the training set and development set and then randomly resplit it to a 50-20-30 train-val-test split that allocates more examples to the validation and test sets than the standard split.
 
 If you'd like to modify the metadata file (e.g., considering other confounders than the presence of negation words), we have included the script we used to generate the metadata file in `dataset_scripts/generate_multinli.py`. Note that running this script will not create the exact dataset we provide above, due to random seed differences. You will need to download the [MultiNLI dataset](https://www.nyu.edu/projects/bowman/multinli/) and edit the paths in that script accordingly.
+
+
+
+### Command ###
+CUDA_VISIBLE_DEVICES=6 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0
+
