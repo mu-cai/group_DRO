@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 from models import model_attributes
 from torch.utils.data import Dataset, Subset
 from data.confounder_dataset import ConfounderDataset
+import pdb
 
 class CelebADataset(ConfounderDataset):
     """
@@ -47,9 +48,9 @@ class CelebADataset(ConfounderDataset):
         self.n_confounders = len(self.confounder_idx)
         confounders = self.attrs_df[:, self.confounder_idx]
         confounder_id = confounders @ np.power(2, np.arange(len(self.confounder_idx)))
-        print('confounder_id', confounder_id.shape(), confounder_id[:10,:])
+        
         self.confounder_array = confounder_id
-        print('self.y_array', self.y_array[:10,:])
+        
         
         
 
@@ -57,9 +58,12 @@ class CelebADataset(ConfounderDataset):
         self.n_groups = self.n_classes * pow(2, len(self.confounder_idx))
         print('self.n_groups = ', self.n_groups)
         self.group_array = (self.y_array*(self.n_groups/2) + self.confounder_array).astype('int')
+        pdb.set_trace()
         print('self.group_array', self.group_array[:10,:])
+        print('confounder_id', confounder_id.shape(), confounder_id[:10,:])
+        print('self.y_array', self.y_array[:10,:])
 
-        assert False
+        # assert False
 
 
         # Read in train/val/test splits

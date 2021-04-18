@@ -115,5 +115,5 @@ If you'd like to modify the metadata file (e.g., considering other confounders t
 
 
 ### Command ###
-CUDA_VISIBLE_DEVICES=6 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0
+CUDA_VISIBLE_DEVICES=3 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0
 
