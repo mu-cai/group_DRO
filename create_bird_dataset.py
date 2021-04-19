@@ -17,6 +17,6 @@ with open("data/list_bird.csv","w") as csvfile:
         print(folder_path, 'y=' , y, ' , split=' , split)
         path_list = os.listdir(folder_path) 
         for img_path in path_list:
-            writer.writerow([ str(img_id) , folder_path + img_path, str(y), str(split), str(place), img_path])
+            writer.writerow([ str(img_id) , folder_path + '/' + img_path, str(y), str(split), str(place), img_path])
             img_id += 1
         index += 1
