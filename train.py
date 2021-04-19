@@ -51,8 +51,10 @@ def run_epoch(epoch, model, optimizer, loader, loss_computer, logger, csv_logger
                 )[1] # [1] returns logits
             else:
                 outputs = model(x)
+            # if not args.erm:
+            loss_main = loss_computer.loss(outputs, y, g, is_training, erm = args.erm)
+            # else:
 
-            loss_main = loss_computer.loss(outputs, y, g, is_training)
 
             if is_training:
                 if args.model == 'bert':

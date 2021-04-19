@@ -65,6 +65,8 @@ def main():
     parser.add_argument('--save_best', action='store_true', default=False)
     parser.add_argument('--save_last', action='store_true', default=False)
 
+    parser.add_argument('--erm', action='store_true', default=False)
+
     args = parser.parse_args()
     check_args(args)
 
