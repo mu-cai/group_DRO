@@ -19,6 +19,7 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
     # logger.info("Processing in-distribution data...")
     in_scores = iterate_data_msp(in_loader, model)
     # logger.info("Processing out-of-distribution data...")
+    out_scores = iterate_data_msp(out_loader, model)
 
 
     in_examples = in_scores.reshape((-1, 1))
