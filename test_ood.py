@@ -19,7 +19,6 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
     # logger.info("Processing in-distribution data...")
     in_scores = iterate_data_msp(in_loader, model)
     # logger.info("Processing out-of-distribution data...")
-    out_scores = iterate_data_msp(out_loader, model)
 
 
     in_examples = in_scores.reshape((-1, 1))
@@ -41,11 +40,30 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
 
 
 
+# def iterate_data_msp(data_loader, model):
+#     confs = []
+#     m = torch.nn.Softmax(dim=-1).cuda()
+#     for b, (x, y) in enumerate(data_loader):
+#         with torch.no_grad():
+#             x = x.cuda()
+#             # compute output, measure accuracy and record loss.
+#             logits = model(x)
+
+#             conf, _ = torch.max(m(logits), dim=-1)
+#             confs.extend(conf.data.cpu().numpy())
+#     return np.array(confs)
+
+
 def iterate_data_msp(data_loader, model):
     confs = []
     m = torch.nn.Softmax(dim=-1).cuda()
-    for b, (x, y) in enumerate(data_loader):
+    # for b, (x, y) in enumerate(data_loader):
+    for batch_idx, batch in enumerate(data_loader):
         with torch.no_grad():
+            batch = tuple(t.cuda() for t in batch)
+            x = batch[0]
+            # y = batch[1]
+            # g = batch[2]
             x = x.cuda()
             # compute output, measure accuracy and record loss.
             logits = model(x)
@@ -53,5 +71,6 @@ def iterate_data_msp(data_loader, model):
             conf, _ = torch.max(m(logits), dim=-1)
             confs.extend(conf.data.cpu().numpy())
     return np.array(confs)
+
 
 
