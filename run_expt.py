@@ -4,6 +4,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torchvision
+import numpy as np
 
 from models import model_attributes
 from data.data import dataset_attributes, shift_types, prepare_data, log_data
@@ -70,6 +71,7 @@ def main():
 
     parser.add_argument('--erm', action='store_true', default=False)
     parser.add_argument('--ood', action='store_true', default=False)
+    parser.add_argument('--energy', action='store_true', default=False)
 
     args = parser.parse_args()
     check_args(args)
@@ -193,11 +195,16 @@ def main():
         from test_utils import arg_parser, mk_id_ood
         base_dir = '../large_scale_ood/dataset/ood_data/'
         ood_dataset = [ 'iNaturalist', 'SUN', 'Places', 'Textures']
+        auroc_list, aupr_in_list, aupr_out_list, fpr95_list = [], [], [], []
         for ood_dataset_name in ood_dataset:
             print(ood_dataset_name)
             args.out_datadir = base_dir + ood_dataset_name
             out_loader = mk_id_ood(args, logger)
-            get_ood_value(model, data['test_loader'], out_loader, logger=None, args=None, num_classes=None, train_loader_in=None)
+            auroc, aupr_in, aupr_out, fpr95  = get_ood_value(model, data['test_loader'], out_loader, logger=None, args=args, num_classes=None, train_loader_in=None)
+            auroc_list.append(auroc)
+            fpr95_list.append(fpr95)
+        print(np.mean(auroc_list), np.mean(fpr95_list))
+
     else:
         train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)
         val_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'val.csv'), train_data.n_groups, mode=mode)
