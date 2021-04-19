@@ -20,6 +20,7 @@ class LossComputer:
         self.group_counts = dataset.group_counts().cuda()
         self.group_frac = self.group_counts/self.group_counts.sum()
         self.group_str = dataset.group_str
+        self.erm_criterion = torch.nn.CrossEntropyLoss()
 
         if adj is not None:
             self.adj = torch.from_numpy(adj).float().cuda()
@@ -38,9 +39,9 @@ class LossComputer:
 
     def loss(self, yhat, y, group_idx=None, is_training=False, erm = False):
         # compute per-sample and per-group losses
-        per_sample_losses = self.criterion(yhat, y)
         if erm:
-            return per_sample_losses
+            return self.erm_criterion(yhat, y)
+        per_sample_losses = self.criterion(yhat, y)
         group_loss, group_count = self.compute_group_avg(per_sample_losses, group_idx)
         group_acc, group_count = self.compute_group_avg((torch.argmax(yhat,1)==y).float(), group_idx)
 
