@@ -9,6 +9,7 @@ from torch.utils.data import Dataset, Subset
 from data.celebA_dataset import CelebADataset
 from data.cub_dataset import CUBDataset
 from data.dro_dataset import DRODataset
+from data.bird_dataset import birdDataset
 from data.multinli_dataset import MultiNLIDataset
 
 ################
@@ -21,6 +22,9 @@ confounder_settings = {
     },
     'CUB':{
         'constructor': CUBDataset
+    },
+    'bird':{
+        'constructor': birdDataset
     },
     'MultiNLI':{
         'constructor': MultiNLIDataset

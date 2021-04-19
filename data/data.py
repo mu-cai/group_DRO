@@ -14,6 +14,9 @@ dataset_attributes = {
     'CUB': {
         'root_dir': 'cub'
     },
+    'bird': {
+        'root_dir': ''
+    },
     'CIFAR10': {
         'root_dir': 'CIFAR10/data'
     },
