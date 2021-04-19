@@ -4,7 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import WeightedRandomSampler
 
 class DRODataset(Dataset):
-    def __init__(self, dataset, process_item_fn, n_groups, n_classes, group_str_fn):
+    def __init__(self, dataset, process_item_fn, n_groups, n_classes, group_str_fn, args=None):
         self.dataset = dataset
         self.process_item = process_item_fn
         self.n_groups = n_groups
@@ -13,11 +13,15 @@ class DRODataset(Dataset):
         group_array = []
         y_array = []
 
-        for x,y,g in self:
-            group_array.append(g)
-            y_array.append(y)
-        self._group_array = torch.LongTensor(group_array)
-        self._y_array = torch.LongTensor(y_array)
+        if args.ood:
+            self._group_array = torch.ones(len(self))
+            self._y_array = torch.ones(len(self))
+        else:
+            for x,y,g in self:
+                group_array.append(g)
+                y_array.append(y)
+            self._group_array = torch.LongTensor(group_array)
+            self._y_array = torch.LongTensor(y_array)
         self._group_counts = (torch.arange(self.n_groups).unsqueeze(1)==self._group_array).sum(1).float()
         self._y_counts = (torch.arange(self.n_classes).unsqueeze(1)==self._y_array).sum(1).float()
 
