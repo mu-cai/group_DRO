@@ -190,7 +190,14 @@ def main():
     else:
         epoch_offset=0
     if args.ood:
-        get_ood_value(model, data['test_loader'], data['val_loader'], logger=None, args=None, num_classes=None, train_loader_in=None)
+        from test_utils import arg_parser, mk_id_ood
+        base_dir = '../large_scale_ood/dataset/ood_data/'
+        ood_dataset = [ 'iNaturalist', 'SUN', 'Places', 'Textures']
+        for ood_dataset_name in ood_dataset:
+            print(ood_dataset_name)
+            args.out_datadir = base_dir + ood_dataset
+            out_loader = mk_id_ood(args, logger)
+            get_ood_value(model, data['test_loader'], out_loader, logger=None, args=None, num_classes=None, train_loader_in=None)
     else:
         train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)
         val_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'val.csv'), train_data.n_groups, mode=mode)

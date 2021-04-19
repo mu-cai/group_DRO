@@ -1,8 +1,10 @@
 import argparse
 import torchvision as tv
+from torchvision import transforms
 import torch
 import numpy as np
 import sklearn.metrics as sk
+from models import model_attributes
 
 
 def arg_parser():
@@ -48,38 +50,35 @@ def mk_id_ood(args, logger):
     """Returns train and validation datasets."""
     crop = 480
 
-    val_tx = tv.transforms.Compose([
-        tv.transforms.Resize((crop, crop)),
-        tv.transforms.ToTensor(),
-        tv.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    ])
+    # val_tx = tv.transforms.Compose([
+    #     tv.transforms.Resize((crop, crop)),
+    #     tv.transforms.ToTensor(),
+    #     tv.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    # ])
 
-    in_set = tv.datasets.ImageFolder(args.in_datadir, val_tx)
+    val_tx = transforms.Compose([
+        transforms.Resize(model_attributes[args.model]['target_resolution']),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ])
+
+    # in_set = tv.datasets.ImageFolder(args.in_datadir, val_tx)
     out_set = tv.datasets.ImageFolder(args.out_datadir, val_tx)
 
-    logger.info(f"Using an in-distribution set with {len(in_set)} images.")
-    logger.info(f"Using an out-of-distribution set with {len(out_set)} images.")
+    # logger.info(f"Using an in-distribution set with {len(in_set)} images.")
+    # logger.info(f"Using an out-of-distribution set with {len(out_set)} images.")
 
-    in_loader = torch.utils.data.DataLoader(
-        in_set, batch_size=args.batch, shuffle=False,
-        num_workers=args.workers, pin_memory=True, drop_last=False)
+    # in_loader = torch.utils.data.DataLoader(
+    #     in_set, batch_size=args.batch, shuffle=False,
+    #     num_workers=args.workers, pin_memory=True, drop_last=False)
 
     out_loader = torch.utils.data.DataLoader(
-        out_set, batch_size=args.batch, shuffle=False,
-        num_workers=args.workers, pin_memory=True, drop_last=False)
-
-    if args.score == 'distance':
-        if not args.use_val_id:
-            train_in_set = tv.datasets.ImageFolder(args.in_datadir[:-3] + 'train', val_tx)
-        else:
-            train_in_set = tv.datasets.ImageFolder(args.in_datadir, val_tx)
-        train_in_loader = torch.utils.data.DataLoader(
-            train_in_set, batch_size=args.batch_size, shuffle=True,
-            num_workers=args.workers, pin_memory=True, drop_last=False)
-        return in_set, train_in_loader, in_loader, out_loader
+        out_set, batch_size=args.batch_size, shuffle=False,
+        num_workers=args.batch_size, pin_memory=True, drop_last=False)
         
 
-    return in_set, out_set, in_loader, out_loader
+    # return in_set, out_set, in_loader, out_loader
+    return out_loader
 
 
 def stable_cumsum(arr, rtol=1e-05, atol=1e-08):
