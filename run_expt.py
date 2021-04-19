@@ -10,6 +10,9 @@ from data.data import dataset_attributes, shift_types, prepare_data, log_data
 from utils import set_seed, Logger, CSVBatchLogger, log_args
 from train import train
 
+from test_ood import get_ood_value
+
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -87,8 +90,8 @@ def main():
     ## Initialize logs
     if not os.path.exists(args.log_dir):
         os.makedirs(args.log_dir)
-
-    logger = Logger(os.path.join(args.log_dir, 'log.txt'), mode)
+    log_name = 'log.txt' if not args.ood else 'log_ood.txt' 
+    logger = Logger(os.path.join(args.log_dir, log_name), mode)
     # Record args
     log_args(args, logger)
 
@@ -184,15 +187,18 @@ def main():
         logger.write(f'starting from epoch {epoch_offset}')
     else:
         epoch_offset=0
-    train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)
-    val_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'val.csv'), train_data.n_groups, mode=mode)
-    test_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'test.csv'), train_data.n_groups, mode=mode)
+    if args.ood:
+        get_ood_value(model, data['test_loader'], data['val_loader'], logger=None, args=None, num_classes=None, train_loader_in=None)
+    else:
+        train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)
+        val_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'val.csv'), train_data.n_groups, mode=mode)
+        test_csv_logger =  CSVBatchLogger(os.path.join(args.log_dir, 'test.csv'), train_data.n_groups, mode=mode)
 
-    train(model, criterion, data, logger, train_csv_logger, val_csv_logger, test_csv_logger, args, epoch_offset=epoch_offset)
+        train(model, criterion, data, logger, train_csv_logger, val_csv_logger, test_csv_logger, args, epoch_offset=epoch_offset)
 
-    train_csv_logger.close()
-    val_csv_logger.close()
-    test_csv_logger.close()
+        train_csv_logger.close()
+        val_csv_logger.close()
+        test_csv_logger.close()
 
 def check_args(args):
     if args.shift_type == 'confounder':
