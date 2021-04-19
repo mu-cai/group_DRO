@@ -195,7 +195,7 @@ def main():
         ood_dataset = [ 'iNaturalist', 'SUN', 'Places', 'Textures']
         for ood_dataset_name in ood_dataset:
             print(ood_dataset_name)
-            args.out_datadir = base_dir + ood_dataset
+            args.out_datadir = base_dir + ood_dataset_name
             out_loader = mk_id_ood(args, logger)
             get_ood_value(model, data['test_loader'], out_loader, logger=None, args=None, num_classes=None, train_loader_in=None)
     else:
