@@ -107,13 +107,15 @@ def main():
         train_data, val_data = prepare_data(args, train=True)
 
     loader_kwargs = {'batch_size':args.batch_size, 'num_workers':4, 'pin_memory':True}
-    train_loader = train_data.get_loader(train=True, reweight_groups=args.reweight_groups, **loader_kwargs)
-    val_loader = val_data.get_loader(train=False, reweight_groups=None, **loader_kwargs)
+
     if test_data is not None:
         test_loader = test_data.get_loader(train=False, reweight_groups=None, **loader_kwargs)
 
     data = {}
-    data['train_loader'] = train_loader
+    if not args.ood:
+        train_loader = train_data.get_loader(train=True, reweight_groups=args.reweight_groups, **loader_kwargs)
+        data['train_loader'] = train_loader
+    val_loader = val_data.get_loader(train=False, reweight_groups=None, **loader_kwargs)
     data['val_loader'] = val_loader
     data['test_loader'] = test_loader
     data['train_data'] = train_data
