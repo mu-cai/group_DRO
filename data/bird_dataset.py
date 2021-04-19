@@ -36,7 +36,7 @@ class birdDataset(ConfounderDataset):
 
         # Read in metadata
         self.metadata_df = pd.read_csv(
-            os.path.join(self.data_dir, 'metadata.csv'))
+            'data/list_bird.csv')) #os.path.join(self.data_dir, 
 
         # Get the y values
         self.y_array = self.metadata_df['y'].values
