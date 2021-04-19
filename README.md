@@ -119,3 +119,5 @@ CUDA_VISIBLE_DEVICES=3 python run_expt.py -s confounder -d CelebA -t Blond_Hair 
 
 CUDA_VISIBLE_DEVICES=2 python run_expt.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --lr 0.001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 300 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0 --log_dir ./logs_bird 
 
+
+CUDA_VISIBLE_DEVICES=3 python run_expt.py -s confounder -d bird -t xxx -c xxx --lr 0.001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 300 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0 --log_dir ./logs_bird_real

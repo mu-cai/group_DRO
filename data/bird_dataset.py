@@ -24,10 +24,11 @@ class birdDataset(ConfounderDataset):
         self.model_type = model_type
         self.augment_data = augment_data
 
-        self.data_dir = os.path.join(
-            self.root_dir,
-            'data',
-            '_'.join([self.target_name] + self.confounder_names))
+        self.data_dir = self.root_dir # 
+        # os.path.join(
+        #     self.root_dir,
+        #     'data',
+        #     '_'.join([self.target_name] + self.confounder_names))
 
         if not os.path.exists(self.data_dir):
             raise ValueError(
