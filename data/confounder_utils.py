@@ -18,13 +18,13 @@ from data.multinli_dataset import MultiNLIDataset
 
 confounder_settings = {
     'CelebA':{
-        'constructor': CelebADataset
+        'constructor': CelebADataset # used 
     },
     'CUB':{
         'constructor': CUBDataset
     },
     'bird':{
-        'constructor': birdDataset
+        'constructor': birdDataset # used 
     },
     'MultiNLI':{
         'constructor': MultiNLIDataset
@@ -44,7 +44,7 @@ def prepare_confounder_data(args, train, return_full_dataset=False):
         confounder_names=args.confounder_names,
         model_type=args.model,
         augment_data=args.augment_data)
-    if return_full_dataset:
+    if return_full_dataset: # never used
         return DRODataset(
             full_dataset,
             process_item_fn=None,
@@ -52,7 +52,7 @@ def prepare_confounder_data(args, train, return_full_dataset=False):
             n_classes=full_dataset.n_classes,
             group_str_fn=full_dataset.group_str)
     if train:
-        splits = ['train', 'val', 'test']
+        splits = ['train', 'val', 'test'] # used
     else:
         splits = ['test']
     subsets = full_dataset.get_splits(splits, train_frac=args.fraction)

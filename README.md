@@ -129,6 +129,25 @@ CUDA_VISIBLE_DEVICES=3 python run_expt.py -s confounder -d bird -t xxx -c xxx --
 CUDA_VISIBLE_DEVICES=2 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0 --erm --log_dir ./logs_celeba_erm --resume
 
 
+CUDA_VISIBLE_DEVICES=7 python run_expt.py -s confounder -d bird -t xxx -c xxx --lr 0.001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 300 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0 --erm --log_dir ./logs_bird_real_erm  --resume
+
+
+
+### DRO L2 ###
+CUDA_VISIBLE_DEVICES=4 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.1 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0  --log_dir ./logs_celeba_l2 
+
+CUDA_VISIBLE_DEVICES=5 python run_expt.py -s confounder -d bird -t xxx -c xxx --lr 0.001 --batch_size 64 --weight_decay 0.1 --model resnet50 --n_epochs 300 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0 --log_dir ./logs_bird_real_l2    --resume
+
+
+### DRO ERM L2 ###
+
+CUDA_VISIBLE_DEVICES=6 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.1 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0   --erm --log_dir ./logs_celeba_l2_erm 
+
+
+CUDA_VISIBLE_DEVICES=7 python run_expt.py -s confounder -d bird -t xxx -c xxx --lr 0.001 --batch_size 64 --weight_decay 1 --model resnet50 --n_epochs 300 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0  --erm --log_dir ./logs_bird_real_l2_erm
+
+
+
 ### OOD ###
 
-CUDA_VISIBLE_DEVICES=1 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0  --resume --ood
+CUDA_VISIBLE_DEVICES=4 python run_expt.py -s confounder -d CelebA -t Blond_Hair -c Male --lr 0.0001 --batch_size 64 --weight_decay 0.0001 --model resnet50 --n_epochs 50 --reweight_groups --robust --gamma 0.1 --generalization_adjustment 0  --resume --ood --energy

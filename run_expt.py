@@ -171,7 +171,7 @@ def main():
     logger.flush()
 
     ## Define the objective
-    if args.hinge:
+    if args.hinge: # never used
         assert args.dataset in ['CelebA', 'CUB'] # Only supports binary
         def hinge_loss(yhat, y):
             # The torch loss takes in three arguments so we need to split yhat
@@ -194,7 +194,7 @@ def main():
     if args.ood:
         from test_utils import arg_parser, mk_id_ood
         base_dir = '../large_scale_ood/dataset/ood_data/'
-        ood_dataset = [ 'iNaturalist', 'SUN', 'Places', 'Textures']
+        ood_dataset = ['iNaturalist', 'SUN', 'Places', 'Textures']
         auroc_list, aupr_in_list, aupr_out_list, fpr95_list = [], [], [], []
         for ood_dataset_name in ood_dataset:
             print(ood_dataset_name)
@@ -203,7 +203,7 @@ def main():
             auroc, aupr_in, aupr_out, fpr95  = get_ood_value(model, data['test_loader'], out_loader, logger=None, args=args, num_classes=None, train_loader_in=None)
             auroc_list.append(auroc)
             fpr95_list.append(fpr95)
-        print(np.mean(auroc_list), np.mean(fpr95_list))
+        print('AUROC: {:.1}'.format(np.mean(auroc_list)) ,'FPR95: {:.1}'.format(np.mean(fpr95_list)) )
 
     else:
         train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)

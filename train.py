@@ -129,7 +129,7 @@ def train(model, criterion, dataset,
             filter(lambda p: p.requires_grad, model.parameters()),
             lr=args.lr,
             momentum=0.9,
-            weight_decay=args.weight_decay)
+            weight_decay=args.weight_decay) # TODO: strong L2 
         if args.scheduler:
             scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
                 optimizer,

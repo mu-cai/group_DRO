@@ -17,8 +17,8 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
     model.eval()
 
     if args.energy:
-            in_scores = iterate_data_energy(in_loader, model)
-            out_scores = iterate_data_energy(out_loader, model)
+        in_scores = iterate_data_energy(in_loader, model)
+        out_scores = iterate_data_energy(out_loader, model)
     else:
         # logger.info("Processing in-distribution data...")
         in_scores = iterate_data_msp(in_loader, model)
@@ -30,8 +30,9 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
     out_examples = out_scores.reshape((-1, 1))
 
     auroc, aupr_in, aupr_out, fpr95 = get_measures(in_examples, out_examples)
+    auroc, aupr_in, aupr_out, fpr95 = auroc*100, aupr_in*100, aupr_out*100, fpr95*100
     
-    print('AUROC: {}'.format(auroc), '\n', aupr_in,'\n',  aupr_out, '\n', fpr95 )
+    print('AUROC: {:.1}'.format(auroc), '\n', 'AUPR (In): {:.1}'.format(aupr_in),'\n',  'AUPR (Out): {:.1}'.format(aupr_out), '\n', 'FPR95: {:.1}'.format(fpr95) )
     return auroc, aupr_in, aupr_out, fpr95 
 
     # logger.info('============Results for {}============'.format(args.score))
