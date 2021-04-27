@@ -203,7 +203,7 @@ def main():
             auroc, aupr_in, aupr_out, fpr95  = get_ood_value(model, data['test_loader'], out_loader, logger=None, args=args, num_classes=None, train_loader_in=None)
             auroc_list.append(auroc)
             fpr95_list.append(fpr95)
-        print('AUROC: {:.1}'.format(np.mean(auroc_list)) ,'FPR95: {:.1}'.format(np.mean(fpr95_list)) )
+        print('AUROC: {:.3}'.format(np.mean(auroc_list)) ,'FPR95: {:.3}'.format(np.mean(fpr95_list)) )
 
     else:
         train_csv_logger = CSVBatchLogger(os.path.join(args.log_dir, 'train.csv'), train_data.n_groups, mode=mode)

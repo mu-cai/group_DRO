@@ -32,7 +32,7 @@ def get_ood_value(model, in_loader, out_loader, logger=None, args=None, num_clas
     auroc, aupr_in, aupr_out, fpr95 = get_measures(in_examples, out_examples)
     auroc, aupr_in, aupr_out, fpr95 = auroc*100, aupr_in*100, aupr_out*100, fpr95*100
     
-    print('AUROC: {:.1}'.format(auroc), '\n', 'AUPR (In): {:.1}'.format(aupr_in),'\n',  'AUPR (Out): {:.1}'.format(aupr_out), '\n', 'FPR95: {:.1}'.format(fpr95) )
+    print('AUROC: {:.3}'.format(auroc), '\n', 'AUPR (In): {:.3}'.format(aupr_in),'\n',  'AUPR (Out): {:.3}'.format(aupr_out), '\n', 'FPR95: {:.3}'.format(fpr95) )
     return auroc, aupr_in, aupr_out, fpr95 
 
     # logger.info('============Results for {}============'.format(args.score))
